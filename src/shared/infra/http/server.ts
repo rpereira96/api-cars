@@ -6,6 +6,7 @@ import "../typeorm";
 import "../../container";
 
 import swaggerFile from "../../.././swagger.json";
+
 import { router } from './routes';
 import { AppError } from '@shared/errors/AppError';
 
