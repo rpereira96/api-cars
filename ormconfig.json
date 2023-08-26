@@ -11,6 +11,7 @@
   },
   "entities": [
     "./src/modules/cars/infra/typeorm/entities/*.ts",
-    "./src/modules/accounts/infra/typeorm/entities/*.ts"
+    "./src/modules/accounts/infra/typeorm/entities/*.ts",
+    "./src/modules/rentals/infra/typeorm/entities/*.ts"
   ]
 } 
