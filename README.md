@@ -1,5 +1,5 @@
 
-API de aluguel de carros usando TypeScript e seguindo os princípios de S.O.L.I.D.
+API de aluguel de carros usando TypeScript, seguindo os princípios de S.O.L.I.D., testes de unidade e testes de integração.
 
 TECNOLOGIAS
  * NodeJs
