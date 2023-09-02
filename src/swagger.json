@@ -8,12 +8,15 @@
       "email": ""
     }
   },
-  "paths": {
+  "paths": { 
     "/categories": {
       "post": {
         "tags": ["Category"],
         "summary": "Cria a categoria",
         "description": "Cria uma nova categoria",
+        "security": [
+          {"bearerAuth": []}
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -75,6 +78,9 @@
         "tags": ["Category"],
         "summary": "Importa a categoria",
         "description": "Importa uma nova categoria",
+        "security": [
+          {"bearerAuth": []}
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -102,6 +108,9 @@
         "tags": ["Specifications"],
         "summary": "Cria uma specificação",
         "description": "Cria uma nova specificação",
+        "security": [
+          {"bearerAuth": []}
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -121,21 +130,159 @@
         }
       }
     },
-    "definitions": {
-      "Specifications": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
+    "/sessions":{
+      "post": {
+        "tags": ["Session"],
+        "summary": "Authentication user",
+        "description": "Authentication user",
+        "requestBody": {
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "properties":{
+                  "email":{
+                    "type":"string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses":{
+          "200":{
+            "description":"Sucess"
           },
-          "description": {
-            "type": "string"
-          },
-          "example": { 
-            "name": "nome specificação exemplo",
-            "description": "descrição exemplo"
+          "400":{
+            "description": "Email or password incorrect!"
           }
         }
+      }
+    },
+    "/cars":{
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Cria um novo carro",
+        "description": "Cria um novo carro",  
+        "security": [
+          {"bearerAuth": []}
+        ],          
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Car"               
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description":"Car already exists"
+          }
+        }
+      }
+    },
+    "/cars/images/{id}":{
+      "post": {
+        "tags": ["Cars"],
+        "summary": "Upload imagens",
+        "description": "Upload imagens",  
+        "security": [
+          {"bearerAuth": []}
+        ],          
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Car id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties":{
+                  "images": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Criado"
+          }
+        }
+      }      
+    }
+  },
+  "definitions": {
+    "Specifications": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "example": { 
+          "name": "nome specificação exemplo",
+          "description": "descrição exemplo"
+        }
+      }
+    },
+    "Car": {
+      "type": "object", 
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "daily_rate": {
+          "type": "number"
+        },
+        "license_plate": {
+          "type": "string"
+        },
+        "fine_amount": {
+          "type": "number"
+        },
+        "brand": {
+          "type": "string"
+        },
+        "category_id": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth":{
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
